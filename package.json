@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "webpack",
+    "start": "webpack-dev-server --inline --hot --progress --colors --history-api-fallback --port 8080 --content-base www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yoann Canal",
@@ -16,6 +17,8 @@
     "babel-preset-react": "^6.16.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "webpack-dev-middleware": "^1.9.0",
+    "webpack-dev-server": "^1.16.2"
   }
 }
