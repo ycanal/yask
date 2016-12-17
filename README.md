@@ -6,3 +6,19 @@ The goal of this project is to provide the boilerplate for:
 * redux
 * react-router
 * bootstrap 3 / less
+
+Setup
+---
+
+```
+npm install
+```
+
+
+
+Compile
+---
+
+```
+npm run compile
+```
