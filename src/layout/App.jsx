@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-export default class Page extends Component {
+export default class App extends Component {
   render() {
     return (
       <div>
-        { this.props.location.pathname }
+        Layout
+        { this.props.children }
       </div>
     );
   }
-};
+}

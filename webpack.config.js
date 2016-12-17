@@ -3,14 +3,12 @@ var webpack = require('webpack');
 
 var config = {
   context: path.join(__dirname, 'src'),
+  devtool: 'cheap-module-eval-source-map',
   entry: './index.js',
   output: {
     path: path.join(__dirname, 'www'),
     filename: 'bundle.js',
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
   module: {
     loaders: [
       {
