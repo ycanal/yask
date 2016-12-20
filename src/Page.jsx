@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 export default class Page extends Component {
   render() {
     return (
-      <div>
-        { this.props.location.pathname }
-      </div>
+      <p className="lead">
+        Rendering page at { this.props.location.pathname }
+      </p>
     );
   }
 };
