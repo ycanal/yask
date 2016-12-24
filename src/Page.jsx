@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Page extends Component {
+class Page extends Component {
   render() {
     return (
       <p className="lead">
@@ -8,4 +8,8 @@ export default class Page extends Component {
       </p>
     );
   }
+}
+Page.propTypes = {
+  location: React.PropTypes.node.isRequired
 };
+export default Page;

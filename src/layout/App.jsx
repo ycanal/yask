@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import {Grid, MenuItem} from 'react-bootstrap';
 
 let NavItem = (props) => (
   <li>
@@ -28,7 +27,7 @@ let NavBar = () => (
   </div>
 );
 
-export default class App extends Component {
+class App extends Component {
   componentDidMount() {
     let adjust_body_offset = () => {
       document.body.style['padding-top'] = `${this.refs.navbar.offsetHeight}px`;
@@ -52,4 +51,9 @@ export default class App extends Component {
       </div>
     );
   }
+}
+App.propTypes = {
+  children: React.PropTypes.node.isRequired
 };
+
+export default App;

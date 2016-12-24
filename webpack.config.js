@@ -14,32 +14,41 @@ var config = {
     new ExtractTextPlugin('styles.css'),
   ],
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'react-hot',
+    preLoaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'eslint'
+    }],
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'react-hot',
+    }, {
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel',
+      query: {
+        presets: ["es2015", "react"]
       },
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          presets: ["es2015", "react"]
-        },
-      },
-      {
-        test: /\.less$/,
-        loader: ExtractTextPlugin.extract(
-                    'css?sourceMap!' +
-                    'less?sourceMap'
-                ),
-      },
-      {test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'},
-      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
-      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
-      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
-    ],
+    }, {
+      test: /\.less$/,
+      loader: ExtractTextPlugin.extract(
+        'css?sourceMap!' +
+        'less?sourceMap'
+      ),
+    }, {
+      test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+      loader: 'url?limit=10000&mimetype=application/font-woff'
+    }, {
+      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+      loader: 'url?limit=10000&mimetype=application/octet-stream'
+    }, {
+      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+      loader: 'file'
+    }, {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      loader: 'url?limit=10000&mimetype=image/svg+xml'
+    }],
   },
   resolveLoader: {
     root: [
