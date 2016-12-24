@@ -23,14 +23,21 @@ npm install
 Start the development server with this command:
 
 ```
-npm run start
+npm start
 ```
 
 
 
-Compile
+Build for development environment
 ---
 
 ```
-npm run compile
+npm run build:dev
+```
+
+Build for production environment
+---
+
+```
+npm run build:prod
 ```

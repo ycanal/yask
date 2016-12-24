@@ -5,10 +5,10 @@ import { Provider } from 'react-redux';
 import { IndexRoute, Router, Route, hashHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
-import App from './layout/App';
-import Page from './Page';
+import App from 'layout/App';
+import Page from 'Page';
 
-import '!style!css!less!./styles/yask.less';
+import '!style!css!less!../stylesheets/yask.less';
 
 const store = createStore(
   combineReducers({

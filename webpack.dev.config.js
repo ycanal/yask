@@ -1,18 +1,25 @@
 var path = require('path');
 var webpack = require('webpack');
+
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+let extractLESS = new ExtractTextPlugin('stylesheets/[name].less');
 
 var config = {
-  context: path.join(__dirname, 'src'),
-  devtool: 'cheap-module-eval-source-map',
-  entry: './index.js',
-  output: {
-    path: path.join(__dirname, 'www'),
-    filename: 'bundle.js',
+  devServer: {
+    contentBase: "www",
+    historyApiFallback: true,
+    port: 8080,
   },
-  plugins: [
-    new ExtractTextPlugin('styles.css'),
-  ],
+  devtool: 'cheap-module-eval-source-map',
+  entry: {
+    yask: path.resolve(__dirname, 'src', 'js', 'index.jsx'),
+  },
+  output: {
+    path: path.resolve(__dirname, 'www'),
+    filename: '[name].js',
+  },
   module: {
     preLoaders: [{
       test: /\.jsx?$/,
@@ -22,20 +29,10 @@ var config = {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'react-hot',
-    }, {
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ["es2015", "react"]
-      },
+      loaders: ['react-hot', 'babel'],
     }, {
       test: /\.less$/,
-      loader: ExtractTextPlugin.extract(
-        'css?sourceMap!' +
-        'less?sourceMap'
-      ),
+      loader: extractLESS.extract('style', 'css-loader?sourceMap!less-loader?sourceMap'),
     }, {
       test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=application/font-woff'
@@ -50,16 +47,25 @@ var config = {
       loader: 'url?limit=10000&mimetype=image/svg+xml'
     }],
   },
-  resolveLoader: {
-    root: [
-      path.join(__dirname, 'node_modules'),
-    ],
-  },
+  plugins: [
+    extractLESS,
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src', 'html', 'index.template.ejs'),
+      inject: 'body',
+    }),
+    new webpack.DefinePlugin({
+      BASE_URL: JSON.stringify('http://localhost:8080')
+    }),
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    root: [
-      path.join(__dirname, 'node_modules'),
+    modulesDirectories: [
+      path.resolve(__dirname, 'src', 'js'),
+      path.resolve(__dirname, 'node_modules'),
     ],
+  },
+  stats: {
+    colors: true
   },
 };
 module.exports = config;
