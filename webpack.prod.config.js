@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var config = {
   entry: {
-    yask: path.resolve(__dirname, 'src', 'js', 'index.jsx'),
+    yask: path.resolve(__dirname, 'src', 'js', 'index.prod.jsx'),
   },
   output: {
     path: path.resolve(__dirname, 'www'),

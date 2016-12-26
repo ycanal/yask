@@ -14,7 +14,7 @@ var config = {
   },
   devtool: 'cheap-module-eval-source-map',
   entry: {
-    yask: path.resolve(__dirname, 'src', 'js', 'index.jsx'),
+    yask: path.resolve(__dirname, 'src', 'js', 'index.dev.jsx'),
   },
   output: {
     path: path.resolve(__dirname, 'www'),
