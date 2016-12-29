@@ -4,8 +4,6 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-let extractLESS = new ExtractTextPlugin('stylesheets/[name].less');
-
 var config = {
   devServer: {
     contentBase: "www",
@@ -32,7 +30,7 @@ var config = {
       loaders: ['react-hot', 'babel'],
     }, {
       test: /\.less$/,
-      loader: extractLESS.extract('style', 'css-loader?sourceMap!less-loader?sourceMap'),
+      loader: ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap'),
     }, {
       test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=application/font-woff'
@@ -48,7 +46,9 @@ var config = {
     }],
   },
   plugins: [
-    extractLESS,
+    new ExtractTextPlugin('[name].css', {
+      allChunks: true
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'html', 'index.template.ejs'),
       inject: 'body',
@@ -65,6 +65,7 @@ var config = {
     ],
   },
   stats: {
+    children: false,
     colors: true
   },
 };

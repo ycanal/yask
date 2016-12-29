@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {routerReducer, syncHistoryWithStore} from 'react-router-redux';
 import {hashHistory} from 'react-router';
 
-import '!style!css!less!../stylesheets/yask.less';
+import 'css!less!../stylesheets/yask.less';
 
 import Root from 'Root';
 

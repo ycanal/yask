@@ -35,7 +35,7 @@ var config = {
     }],
   },
   plugins: [
-    new ExtractTextPlugin('[name]-[chunkhash].css', {
+    new ExtractTextPlugin('[name].css', {
       allChunks: true
     }),
     new HtmlWebpackPlugin({
@@ -61,6 +61,7 @@ var config = {
     ],
   },
   stats: {
+    children: false,
     colors: true
   },
 };

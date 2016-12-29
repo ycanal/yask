@@ -10,7 +10,7 @@ import {createDevTools} from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
 
-import '!style!css!less!../stylesheets/yask.less';
+import 'css!less!../stylesheets/yask.less';
 
 import Root from 'Root';
 
