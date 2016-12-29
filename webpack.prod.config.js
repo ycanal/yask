@@ -10,7 +10,7 @@ var config = {
   },
   output: {
     path: path.resolve(__dirname, 'www'),
-    filename: '[name].js',
+    filename: 'assets/js/[name].js',
   },
   module: {
     loaders: [{
@@ -22,20 +22,20 @@ var config = {
       loader: ExtractTextPlugin.extract('style', 'css!less')
     }, {
       test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=application/font-woff'
+      loader: 'url?limit=10000&name=assets/fonts/[name].[ext]&mimetype=application/font-woff'
     }, {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=application/octet-stream'
+      loader: 'url?limit=10000&name=assets/fonts/[name].[ext]&mimetype=application/octet-stream'
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file'
+      loader: 'file?name=assets/fonts/[name].[ext]'
     }, {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=image/svg+xml'
+      loader: 'url?limit=10000&name=assets/fonts/[name].[ext]&mimetype=image/svg+xml'
     }],
   },
   plugins: [
-    new ExtractTextPlugin('[name].css', {
+    new ExtractTextPlugin('assets/css/[name].css', {
       allChunks: true
     }),
     new HtmlWebpackPlugin({
