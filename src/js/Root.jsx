@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {IndexRoute, Router, Route} from 'react-router';
 
-import App from 'layout/App';
+import App from 'containers/App';
 import Page from 'Page';
 
 class Root extends Component {

@@ -2,15 +2,15 @@
   "name": "yask",
   "version": "0.0.1",
   "description": "Yet Another Starter Kit",
-  "main": "index.js",
   "scripts": {
-    "build:dev": "NODE_ENV=dev webpack -d --config webpack.dev.config.js",
-    "build:prod": "NODE_ENV=prod webpack -p --config webpack.prod.config.js",
-    "start": "webpack-dev-server --config webpack.dev.config.js --colors --hot --inline --progress",
+    "build:dev": "NODE_ENV=development webpack -d",
+    "build:prod": "NODE_ENV=production webpack -p",
+    "start": "webpack-dev-server --colors --hot --inline --progress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yoann Canal",
   "license": "BSD-2-Clause",
+  "repository": "https://github.com/ycanal/yask.git",
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
@@ -21,6 +21,7 @@
     "eslint-loader": "^1.6.1",
     "eslint-plugin-react": "^6.8.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "favicons-webpack-plugin": "0.0.7",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
     "less": "^2.7.1",
