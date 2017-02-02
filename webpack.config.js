@@ -1,19 +1,22 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const OUTPUT = process.env.OUTPUT || path.resolve(__dirname, 'www');
+
 const isProduction = NODE_ENV === 'production';
 
-var config = {
+const config = {
   devServer: {
-    contentBase: "www",
+    contentBase: OUTPUT,
     historyApiFallback: true,
     port: 8080,
   },
+  devtool: 'cheap-module-source-map',
   entry: {
     yask: path.resolve(__dirname, 'src', 'js', 'index.jsx'),
   },
@@ -22,70 +25,74 @@ var config = {
     filename: '[name].js',
   },
   module: {
-    preLoaders: [{
+    rules: [{
+      test: /\.jsx?$/,
+      enforce: 'pre',
+      exclude: /node_modules/,
+      loader: 'eslint-loader',
+    }, {
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'eslint'
-    }],
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loaders: isProduction ? ['babel'] : ['react-hot', 'babel'],
+      use: [{
+        loader: isProduction ? 'noop-loader' : 'react-hot-loader'
+      }, {
+        loader: 'babel-loader',
+        options: {
+          plugins: ['syntax-dynamic-import'],
+          presets: ['es2015', 'react'],
+          compact: true,
+        }
+      }]
     }, {
       test: /\.less$/,
-      loader: ExtractTextPlugin.extract('style', isProduction ? 'css!less' : 'css?sourceMap!less?sourceMap'),
+      loader: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'less-loader'],
+      })
     }, {
       test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=application/font-woff'
+      loader: 'url-loader?limit=10000&mimetype=application/font-woff',
     }, {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=application/octet-stream'
+      loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file'
+      loader: 'file-loader',
     }, {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=image/svg+xml'
+      loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
     }],
   },
   plugins: [
-    new ExtractTextPlugin('[name].css', {
-      allChunks: true
+    new webpack.LoaderOptionsPlugin({
+      minimize: isProduction,
+    }),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      disable: false,
+      allChunks: true,
     }),
     new FaviconsWebpackPlugin(path.resolve(__dirname, 'src', 'images', 'logo.svg')),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'templates', 'index.ejs'),
-      inject: 'body'
+      inject: 'body',
     }),
     new webpack.DefinePlugin({
-      BASE_URL: JSON.stringify(NODE_ENV === 'production' ? 'https://prod' : 'http://dev'),
+      BASE_URL: JSON.stringify(isProduction ? 'https://prod' : 'http://dev'),
       DEVTOOLS: !isProduction,
-      'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
     }),
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
-    modulesDirectories: [
+    extensions: ['.js', '.jsx'],
+    modules: [
       path.resolve(__dirname, 'src', 'js'),
       path.resolve(__dirname, 'node_modules'),
     ],
   },
   stats: {
     children: false,
-    colors: true
+    colors: true,
   },
 };
-
-if (isProduction) {
-  config.plugins = [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ].concat(config.plugins);
-}
 
 module.exports = config;

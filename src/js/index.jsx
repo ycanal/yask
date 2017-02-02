@@ -12,32 +12,44 @@ import Root from 'Root';
 
 const reducers = combineReducers({routing: routerReducer});
 
-let devTools, enhancer;
+let devTools, enhancer, init;
 if (DEVTOOLS) {
-  /*global require:true*/
-  const createDevTools = require('redux-devtools').createDevTools;
-  const LogMonitor = require('redux-devtools-log-monitor').default;
-  const DockMonitor = require('redux-devtools-dock-monitor').default;
+  let createDevTools, LogMonitor, DockMonitor;
+  init = Promise.all([
+    import('redux-devtools'),
+    import('redux-devtools-log-monitor'),
+    import('redux-devtools-dock-monitor')
+  ]).then(results => {
+    createDevTools = results[0].createDevTools;
+    LogMonitor = results[1].default;
+    DockMonitor = results[2].default;
 
-  const DevTools = createDevTools(
-    <DockMonitor toggleVisibilityKey='ctrl-h' changePositionKey='ctrl-q' defaultIsVisible={false}>
-      <LogMonitor/>
-    </DockMonitor>
-  );
-  devTools = (<DevTools/>);
+    const DevTools = createDevTools(
+      <DockMonitor toggleVisibilityKey='ctrl-h' changePositionKey='ctrl-q' defaultIsVisible={false}>
+        <LogMonitor/>
+      </DockMonitor>
+    );
+    devTools = (<DevTools/>);
 
-  enhancer = compose(applyMiddleware(thunk), DevTools.instrument());
+    enhancer = compose(applyMiddleware(thunk), DevTools.instrument());
+  });
+
+
 } else {
-  enhancer = applyMiddleware(thunk);
+  init = Promise.resolve(
+    enhancer = applyMiddleware(thunk)
+  );
 }
 
-const store = createStore(reducers, enhancer);
-const history = syncHistoryWithStore(browserHistory, store);
+init.then(() => {
+  const store = createStore(reducers, enhancer);
+  const history = syncHistoryWithStore(browserHistory, store);
 
-ReactDOM.render(
-  <Provider store={store}>
-  <div>
-    <Root history={history}/>
-    {devTools}
-  </div>
-</Provider>, document.getElementById('mount'));
+  ReactDOM.render(
+    <Provider store={store}>
+    <div>
+      <Root history={history}/>
+      {devTools}
+    </div>
+  </Provider>, document.getElementById('mount'));
+});

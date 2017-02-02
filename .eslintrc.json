@@ -8,6 +8,7 @@
     "BASE_URL": true,
     "DEVTOOLS": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
