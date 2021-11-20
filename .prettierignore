@@ -1,0 +1,6 @@
+# Ignore artifacts
+dist
+report.html
+
+# Ignore generated css-modules types
+src/**/*.scss.d.ts
