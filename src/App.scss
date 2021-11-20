@@ -1,0 +1,23 @@
+@import "variables.scss";
+
+.container {
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 50px auto;
+  grid-template-areas:
+    "header"
+    "content";
+}
+
+.header {
+  grid-area: header;
+}
+.content {
+  grid-area: content;
+  justify-self: center;
+
+  @media (max-width: $max-width) {
+    justify-self: unset;
+  }
+}

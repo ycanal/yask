@@ -12,9 +12,9 @@
    version="1.1"
    id="svg3686"
    xml:space="preserve"
-   width="1181.4133"
-   height="1015.2667"
-   viewBox="0 0 1181.4133 1015.2667"
+   width="650"
+   height="650"
+   viewBox="0 0 650 650"
    sodipodi:docname="yask.svg"
    inkscape:version="0.92pre3 r"><metadata
      id="metadata3692"><rdf:RDF><cc:Work
@@ -90,16 +90,5 @@
            x="3233.5549"
            y="-3091.6775"
            style="stroke-width:7.5px"></tspan></text>
-</g><text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:118.33734131px;line-height:73.96083832px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.95843363px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="125.3424"
-       y="-190.49579"
-       id="text3874"
-       transform="scale(1,-1)"><tspan
-         sodipodi:role="line"
-         id="tspan3872"
-         x="125.3424"
-         y="-190.49579"
-         style="stroke-width:2.95843363px">YASK</tspan></text>
+</g>
 </g></svg>

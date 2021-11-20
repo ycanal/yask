@@ -1,0 +1,25 @@
+@import "variables.scss";
+
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1em;
+}
+
+.item {
+  padding: 1em;
+  background: $primary;
+  color: $text;
+
+  h4 {
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}

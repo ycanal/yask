@@ -1,98 +1,108 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshTypeScript = require("react-refresh-typescript");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const OUTPUT = process.env.OUTPUT || path.resolve(__dirname, 'www');
+module.exports = (_, argv) => {
+  const mode = argv.mode;
+  const isDevelopment = mode === "development";
 
-const isProduction = NODE_ENV === 'production';
-
-const config = {
-  devServer: {
-    contentBase: OUTPUT,
-    historyApiFallback: true,
-    port: 8080,
-  },
-  devtool: 'cheap-module-source-map',
-  entry: {
-    yask: path.resolve(__dirname, 'src', 'js', 'index.jsx'),
-  },
-  output: {
-    path: path.resolve(__dirname, 'www'),
-    filename: '[name].js',
-  },
-  module: {
-    rules: [{
-      test: /\.jsx?$/,
-      enforce: 'pre',
-      exclude: /node_modules/,
-      loader: 'eslint-loader',
-    }, {
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      use: [{
-        loader: isProduction ? 'noop-loader' : 'react-hot-loader'
-      }, {
-        loader: 'babel-loader',
-        options: {
-          plugins: ['syntax-dynamic-import'],
-          presets: ['es2015', 'react'],
-          compact: true,
-        }
-      }]
-    }, {
-      test: /\.less$/,
-      loader: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'less-loader'],
-      })
-    }, {
-      test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url-loader?limit=10000&mimetype=application/font-woff',
-    }, {
-      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
-    }, {
-      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file-loader',
-    }, {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
-    }],
-  },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: isProduction,
-    }),
-    new ExtractTextPlugin({
-      filename: '[name].css',
-      disable: false,
-      allChunks: true,
-    }),
-    new FaviconsWebpackPlugin(path.resolve(__dirname, 'src', 'images', 'logo.svg')),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src', 'templates', 'index.ejs'),
-      inject: 'body',
-    }),
-    new webpack.DefinePlugin({
-      BASE_URL: JSON.stringify(isProduction ? 'https://prod' : 'http://dev'),
-      DEVTOOLS: !isProduction,
-    }),
-  ],
-  resolve: {
-    extensions: ['.js', '.jsx'],
-    modules: [
-      path.resolve(__dirname, 'src', 'js'),
-      path.resolve(__dirname, 'node_modules'),
-    ],
-  },
-  stats: {
-    children: false,
-    colors: true,
-  },
+  return {
+    devServer: {
+      historyApiFallback: true,
+      hot: true,
+      port: 8080,
+    },
+    entry: path.join(__dirname, "src", "index.tsx"),
+    output: {
+      path: path.join(__dirname, "dist"),
+      filename: "[name].js",
+      publicPath: "/",
+    },
+    devtool: isDevelopment ? "eval-source-map" : "source-map",
+    module: {
+      rules: [
+        {
+          test: /\.[jt]sx?$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: require.resolve("ts-loader"),
+              options: {
+                getCustomTransformers: () => ({
+                  before: [isDevelopment && ReactRefreshTypeScript()].filter(
+                    Boolean
+                  ),
+                }),
+                transpileOnly: isDevelopment,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+            {
+              loader: "css-modules-typescript-loader",
+              options: {
+                mode: isDevelopment ? "emit" : "verify",
+              },
+            },
+            {
+              loader: "css-loader",
+              options: {
+                modules: {
+                  auto: (resourcePath) =>
+                    resourcePath.startsWith(path.join(__dirname, "src")),
+                  exportLocalsConvention: "camelCaseOnly",
+                },
+                sourceMap: true,
+              },
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: true,
+                postcssOptions: {
+                  plugins: () => [require("autoprefixer")],
+                },
+              },
+            },
+            {
+              loader: "sass-loader",
+              options: { sourceMap: true },
+            },
+          ],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: "asset/resource",
+        },
+      ],
+    },
+    resolve: {
+      extensions: [".tsx", ".ts", ".js"],
+      modules: ["src", "node_modules"],
+    },
+    plugins: [
+      new ForkTsCheckerWebpackPlugin(),
+      new HtmlWebpackPlugin(),
+      new FaviconsWebpackPlugin(
+        path.resolve(__dirname, "src", "images", "logo.svg")
+      ),
+      !isDevelopment && new MiniCssExtractPlugin(),
+      isDevelopment && new ReactRefreshWebpackPlugin(),
+      new BundleAnalyzerPlugin({
+        analyzerMode: isDevelopment ? "server" : "static",
+        reportFilename: path.resolve(__dirname, "report.html"),
+        openAnalyzer: false,
+      }),
+    ].filter(Boolean),
+  };
 };
-
-module.exports = config;

@@ -1,0 +1,14 @@
+{
+  "include": ["src", "src/declaration.d.ts"],
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "src",
+    "outDir": "dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "ESNext",
+    "target": "ES6",
+    "jsx": "react",
+    "moduleResolution": "node"
+  }
+}
