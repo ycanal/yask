@@ -1,24 +1,17 @@
-Yet Another Starter Kit
----
+## Yet Another Starter Kit
 
 The goal of this project is to provide the boilerplate for:
-* react
-* redux
-* react-router
-* bootstrap 3 / less
 
-Usage
----
+- react
+- redux
+- redux-observable
+- bootstrap 5 / sass
 
-
-Setup
----
+## Setup
 
 ```
 npm install
 ```
-
-
 
 Start the development server with this command:
 
@@ -26,18 +19,8 @@ Start the development server with this command:
 npm start
 ```
 
-
-
-Build for development environment
----
+## Build for production environment
 
 ```
-npm run build:dev
-```
-
-Build for production environment
----
-
-```
-npm run build:prod
+npm run build
 ```

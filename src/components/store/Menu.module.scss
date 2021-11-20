@@ -1,0 +1,21 @@
+@import "variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.tree {
+  height: 100%;
+  width: 100%;
+
+  border: unset;
+  border-right: solid;
+  border-right-color: $primary;
+  border-right-width: 1px;
+
+  :global(.rc-tree-node-selected) {
+    background-color: $primary;
+    box-shadow: 0 0 0 1px $secondary;
+  }
+}

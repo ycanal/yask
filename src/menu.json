@@ -1,0 +1,48 @@
+[
+  {
+    "key": "car",
+    "name": "car",
+    "title": "Cars",
+    "children": [
+      {
+        "key": "car-kit",
+        "name": "kit",
+        "title": "Kits",
+        "children": [
+          { "key": "car-kit-da2", "name": "da2", "title": "DriftArt 2.6 EX" },
+          { "key": "car-kit-sz2", "name": "sz2", "title": "Atomic SZ2" }
+        ]
+      },
+      {
+        "key": "parts",
+        "name": "parts",
+        "title": "Parts",
+        "children": [
+          {
+            "key": "car-parts-da2",
+            "name": "da2",
+            "title": "DriftArt 2.6 EX Parts"
+          },
+          { "key": "car-parts-sz2", "name": "sz2", "title": "Atomic SZ2 Parts" }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "tx",
+    "name": "tx",
+    "title": "TX",
+    "children": [
+      {
+        "key": "tx-nb4",
+        "name": "nb4",
+        "title": "Flysky NB4"
+      },
+      {
+        "key": "tx-futaba",
+        "name": "futaba",
+        "title": "Futaba T4PM"
+      }
+    ]
+  }
+]

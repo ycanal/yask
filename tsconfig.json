@@ -1,0 +1,21 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "baseUrl": "src",
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client"],
+    "skipLibCheck": false,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "noImplicitAny": true
+  }
+}
